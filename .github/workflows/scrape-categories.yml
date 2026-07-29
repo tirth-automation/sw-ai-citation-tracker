@@ -1,0 +1,21 @@
+name: Scrape URL categories
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install requests beautifulsoup4 pandas openpyxl
+      - run: python3 scrape_categories.py
+      - name: Commit category map
+        run: |
+          git config user.name "aio-bot"
+          git config user.email "aio-bot@users.noreply.github.com"
+          git add url_categories.json
+          git commit -m "Update URL category map $(date -u +%F)" || echo "no changes"
+          git push || echo "nothing to push"
