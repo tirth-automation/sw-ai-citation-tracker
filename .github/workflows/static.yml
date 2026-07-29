@@ -1,0 +1,42 @@
+name: Deploy static content to Pages
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install pandas openpyxl
+      - name: Rebuild data.json from newest export
+        run: |
+          python3 - <<'PYX'
+          import glob, os, re, subprocess
+          cands = (glob.glob("*.xlsx")+glob.glob("*.xls")+glob.glob("*.csv")
+                   +glob.glob("exports/*.xlsx")+glob.glob("exports/*.xls")+glob.glob("exports/*.csv"))
+          def score(f):
+              m=re.search(r"(\d{4}-\d{2}-\d{2})(?:[_-]\d{2}-\d{2}-\d{2})?", os.path.basename(f))
+              return (m.group(0) if m else "", f)
+          if not cands:
+              print("No export found; keeping existing data.json"); raise SystemExit(0)
+          best=max(cands,key=score); print("Using export:",best)
+          subprocess.check_call(["python3","build_from_export.py",best])
+          PYX
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: "." }
+      - id: deployment
+        uses: actions/deploy-pages@v4
