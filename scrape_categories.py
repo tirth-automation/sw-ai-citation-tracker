@@ -34,8 +34,22 @@ MAX_RETRIES  = 4
 BACKOFF      = 20     # base seconds to wait on a 429
 
 session = requests.Session()
-session.headers.update({"User-Agent": UA, "Accept-Language": "en-US,en;q=0.9",
-                        "Accept": "text/html,application/xhtml+xml"})
+session.headers.update({
+    "User-Agent": UA,
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Referer": "https://www.google.com/",
+    "Upgrade-Insecure-Requests": "1",
+    "Sec-Fetch-Dest": "document",
+    "Sec-Fetch-Mode": "navigate",
+    "Sec-Fetch-Site": "cross-site",
+    "Sec-Fetch-User": "?1",
+    "Sec-Ch-Ua": '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
+    "Sec-Ch-Ua-Mobile": "?0",
+    "Sec-Ch-Ua-Platform": '"Windows"',
+    "Connection": "keep-alive",
+})
 
 def pick(names):
     names = [n for n in names if n]
@@ -77,13 +91,14 @@ def fetch(url):
             r = session.get(url, timeout=25)
             if r.status_code == 200:
                 return extract_category(r.text)
-            if r.status_code == 429:
+            if r.status_code in (429, 403, 503):
+                # blocked/throttled — wait and retry with a longer pause
                 wait = BACKOFF * (attempt + 1) + random.uniform(0, 5)
                 time.sleep(wait); continue
             return f"HTTP {r.status_code}"
         except Exception:
             time.sleep(5 * (attempt + 1))
-    return "HTTP 429"
+    return "HTTP 403"
 
 def unique_urls():
     """Union of every ranking URL we can find — from all exports AND data.json.
