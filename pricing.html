@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pricing Prompts — SaaSworthy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;450;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F3F4F9;--card:#FFFFFF;--ink:#0E1424;--muted:#646E85;--faint:#9AA3B6;--line:#E7E9F2;
+    --primary:#4F46E5;--primary-2:#7C6CF6;--primary-soft:#EEF0FF;--aio:#B45309;--aio-soft:#FDF3E3;
+    --teal:#0E8C8C;--teal-soft:#E1F4F4;--green:#0E9F6E;--green-soft:#E4F7EF;--rose:#E0345A;--rose-soft:#FCE7EC;
+    --shadow:0 1px 2px rgba(16,23,41,.04),0 12px 30px -16px rgba(16,23,41,.18);--radius:16px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:14px;line-height:1.5;letter-spacing:-0.005em;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1260px;margin:0 auto;padding:0 24px 64px}
+  .hero{margin:0 -24px 26px;padding:34px 24px 30px;background:
+    radial-gradient(900px 280px at 12% -40%,rgba(124,108,246,.18),transparent 60%),
+    radial-gradient(700px 260px at 88% -60%,rgba(14,140,140,.14),transparent 55%),
+    linear-gradient(180deg,#101733,#161E3E);color:#fff;border-bottom-left-radius:26px;border-bottom-right-radius:26px}
+  .hero .inner{max-width:1260px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+  .mark{display:flex;align-items:center;gap:13px;margin-bottom:14px}
+  .glyph{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--primary),var(--primary-2));display:grid;place-items:center;box-shadow:0 8px 20px -6px rgba(79,70,229,.6)}
+  .glyph svg{width:21px;height:21px}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#A9B2D8;font-weight:600}
+  h1{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:31px;line-height:1.05;margin:5px 0 0;letter-spacing:-0.02em}
+  h1 .sub{color:#8C96C2;font-weight:500}
+  .hmeta{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#A9B2D8;text-align:right;line-height:1.8}
+  .hmeta b{color:#fff;font-weight:600}
+  .badge-src{display:inline-block;margin-top:6px;font-size:10.5px;padding:2px 8px;border-radius:6px;background:rgba(255,255,255,.1);color:#C7CEE8}
+  .insight{margin-top:18px;display:inline-flex;align-items:center;gap:9px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);padding:9px 15px;border-radius:11px;font-size:13px;color:#E7EAF6}
+  .insight b{color:#fff}
+  .insight .ic{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(14,159,110,.25)}
+  .navlinks{margin-top:16px}
+  .navlink{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#fff;text-decoration:none;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);padding:8px 15px;border-radius:10px}
+  .navlink:hover{background:rgba(255,255,255,.2)}
+
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:14px}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:17px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:transform .15s ease,box-shadow .15s ease}
+  .kpi:hover{transform:translateY(-2px);box-shadow:0 1px 2px rgba(16,23,41,.04),0 18px 38px -18px rgba(16,23,41,.26)}
+  .kpi .accent{position:absolute;left:0;top:0;bottom:0;width:3px}
+  .kpi .label{font-size:11.5px;color:var(--muted);font-weight:500;margin-bottom:10px}
+  .kpi .val{font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:600;letter-spacing:-0.02em;line-height:1}
+  .kpi .foot{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--faint);margin-top:9px}
+  .k1 .accent{background:var(--primary)} .k2 .accent{background:var(--aio)} .k3 .accent{background:var(--teal)} .k4 .accent{background:var(--green)}
+
+  .grid2{display:grid;grid-template-columns:1.15fr 1fr 1.1fr;gap:14px;margin-bottom:24px}
+  .strip{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px 18px}
+  .strip .head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px}
+  .strip .title{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.02em}
+  .strip .hint{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--faint)}
+  .posbars{display:flex;gap:8px;align-items:flex-end;height:96px}
+  .posbar{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;justify-content:flex-end;height:100%}
+  .posbar .bar{width:100%;border-radius:7px 7px 3px 3px;background:linear-gradient(180deg,var(--primary),var(--primary-2));min-height:4px;transition:height .4s cubic-bezier(.2,.7,.2,1)}
+  .posbar .pl{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)}
+  .posbar .pn{font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;color:var(--ink)}
+  .tl{display:flex;gap:2px;align-items:flex-end;height:96px}
+  .tlbar{flex:1;background:var(--teal-soft);border-radius:3px 3px 1px 1px;min-height:3px;cursor:pointer;transition:background .12s}
+  .tlbar:hover{background:var(--teal)} .tlbar.on{background:var(--teal)}
+  .tlaxis{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--faint);margin-top:8px}
+  .donutwrap{display:flex;align-items:center;gap:16px}
+  .donut{width:96px;height:96px;border-radius:50%;flex:none;position:relative}
+  .donut::after{content:"";position:absolute;inset:20px;background:var(--card);border-radius:50%}
+  .donut .ctr{position:absolute;inset:0;display:grid;place-items:center;text-align:center;z-index:1}
+  .donut .ctr b{font-family:'Space Grotesk',sans-serif;font-size:18px;display:block;line-height:1}
+  .donut .ctr span{font-size:9.5px;color:var(--muted)}
+  .legend{display:flex;flex-direction:column;gap:5px;font-size:12px}
+  .legend .li{display:flex;align-items:center;gap:7px}
+  .legend .sw{width:9px;height:9px;border-radius:3px;flex:none}
+  .legend .ln{color:var(--muted)} .legend .lv{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink)}
+
+  .tabs{display:inline-flex;background:#E9EBF4;border-radius:12px;padding:4px;gap:3px;margin-bottom:14px}
+  .tab{border:none;background:none;font-family:inherit;font-size:13px;font-weight:500;color:var(--muted);padding:8px 16px;border-radius:9px;cursor:pointer}
+  .tab[aria-selected="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(16,23,41,.1);font-weight:600}
+  .controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+  .search{flex:1;min-width:180px;position:relative}
+  .search input{width:100%;border:1px solid var(--line);background:var(--card);border-radius:11px;padding:11px 14px 11px 38px;font-family:inherit;font-size:14px;color:var(--ink);box-shadow:var(--shadow);outline:none}
+  .search input:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-soft)}
+  .search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--faint)}
+  select.sel{border:1px solid var(--line);background:var(--card);border-radius:11px;padding:11px 32px 11px 13px;font-family:inherit;font-size:13px;color:var(--ink);box-shadow:var(--shadow);cursor:pointer;outline:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239AA3B6' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+  select.sel:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-soft)}
+  .chips{display:flex;gap:6px;flex-wrap:wrap}
+  .chip{border:1px solid var(--line);background:var(--card);color:var(--muted);font-family:inherit;font-weight:500;font-size:12.5px;padding:8px 13px;border-radius:9px;cursor:pointer;transition:all .12s ease;display:inline-flex;align-items:center;gap:6px}
+  .chip:hover{border-color:#cfd3e0}
+  .chip[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .chip .c{font-family:'IBM Plex Mono',monospace;font-size:11px;opacity:.65}
+  .btn{border:1px solid var(--line);background:var(--card);color:var(--ink);font-family:inherit;font-weight:500;font-size:12.5px;padding:9px 14px;border-radius:10px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;box-shadow:var(--shadow)}
+  .btn:hover{border-color:#cfd3e0} .btn svg{width:15px;height:15px}
+  .clearbtn{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--primary);background:none;border:none;cursor:pointer;padding:6px}
+  .clearbtn:hover{text-decoration:underline}
+  .resultbar{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin:2px 2px 12px}
+  .resultbar b{color:var(--ink)}
+
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+  .tablewrap{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;min-width:760px}
+  thead th{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;text-align:left;padding:13px 16px;border-bottom:1px solid var(--line);background:#FBFCFE;cursor:pointer;user-select:none;white-space:nowrap;position:sticky;top:0;z-index:2}
+  thead th:hover{color:var(--ink)} thead th.num{text-align:right}
+  thead th .arrow{opacity:0;font-size:9px;margin-left:4px}
+  thead th[data-active="true"]{color:var(--ink)} thead th[data-active="true"] .arrow{opacity:1}
+  tbody td{padding:12px 16px;border-bottom:1px solid var(--line);vertical-align:middle}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:#FBFBFE}
+  .kw{font-weight:500;max-width:260px}
+  .page a{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--primary);text-decoration:none;max-width:230px;display:inline-block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle}
+  .page a:hover{text-decoration:underline}
+  .cattag{display:inline-block;margin-left:8px;font-size:10px;font-weight:500;color:var(--muted);background:#EEF0F5;padding:2px 6px;border-radius:5px;vertical-align:middle}
+  .pcat{display:inline-block;font-size:11.5px;font-weight:600;color:var(--primary);background:var(--primary-soft);padding:3px 9px;border-radius:7px}
+  .pcat.unc{color:var(--faint);background:#F1F2F6;font-weight:500}
+  .num{text-align:right;font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums}
+  .pos{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:24px;padding:0 7px;border-radius:7px;background:#EEF0F5;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:12.5px}
+  .pos.p1{background:var(--green-soft);color:var(--green)} .pos.p2{background:var(--teal-soft);color:var(--teal)}
+  .cited{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;padding:4px 9px;border-radius:7px;background:var(--aio-soft);color:var(--aio)}
+  .cited .pulse{width:6px;height:6px;border-radius:50%;background:var(--aio)}
+  .nocite{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--faint)}
+  .c7{display:inline-flex;align-items:center;gap:4px;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;padding:3px 7px;border-radius:6px;margin-left:6px}
+  .c7.gained{background:var(--green-soft);color:var(--green)} .c7.lost{background:var(--rose-soft);color:var(--rose)}
+  .c7.new{background:var(--primary-soft);color:var(--primary)} .c7.held{background:#EEF0F5;color:var(--muted)}
+  .loccell{display:inline-flex;align-items:center;gap:7px;font-size:12.5px}
+  .cc{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;background:#EEF0F5;color:var(--muted);padding:2px 5px;border-radius:5px}
+  .tag{display:inline-block;font-size:11px;font-weight:500;padding:3px 8px;border-radius:6px;background:#EEF0F5;color:var(--muted)}
+  .tag.Commercial{background:#FFF1E6;color:#C2410C} .tag.Transactional{background:var(--green-soft);color:var(--green)}
+  .tag.Branded{background:var(--primary-soft);color:var(--primary)} .tag.Informational{background:var(--teal-soft);color:var(--teal)}
+  .citebar{display:inline-flex;align-items:center;gap:7px}
+  .citebar .track{width:46px;height:6px;border-radius:4px;background:#EEF0F5;overflow:hidden}
+  .citebar .fillc{height:100%;background:var(--aio);border-radius:4px}
+  .pager{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 16px;flex-wrap:wrap}
+  .pager .info{font-size:12.5px;color:var(--muted);font-family:'IBM Plex Mono',monospace}
+  .pbtn{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:7px 12px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink);cursor:pointer}
+  .pbtn:disabled{opacity:.4;cursor:default} .pbtn:not(:disabled):hover{border-color:#cfd3e0}
+  .btns{display:flex;gap:6px;align-items:center}
+  .empty{padding:54px 20px;text-align:center;color:var(--muted)}
+  .empty strong{display:block;color:var(--ink);font-family:'Space Grotesk',sans-serif;font-size:16px;margin-bottom:6px}
+  .hidden{display:none!important}
+  @media (max-width:980px){.grid2{grid-template-columns:1fr 1fr}.grid2 .donutpanel{grid-column:1 / -1}}
+  @media (max-width:880px){.kpis{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}}
+  @media (max-width:560px){h1{font-size:24px}.wrap{padding:0 14px 48px}.hero{margin:0 -14px 22px;padding:26px 14px 24px}}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+  :focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="inner">
+    <div>
+      <div class="mark">
+        <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="3.2"/></svg></span>
+        <span class="eyebrow">Pricing Prompts &middot; AI Overview</span>
+      </div>
+      <h1>Pricing prompts in AI Overviews <span class="sub">/ saasworthy.com</span></h1>
+      <div class="insight" id="insight"></div>
+      <div class="navlinks"><a class="navlink" href="./index.html">&larr; All prompts</a></div>
+    </div>
+    <div class="hmeta" id="hmeta"></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <section class="kpis" id="kpis"></section>
+  <section class="grid2">
+    <div class="strip">
+      <div class="head"><span class="title">Ranking position</span><span class="hint" id="posHint">positions 1–6</span></div>
+      <div class="posbars" id="posbars"></div>
+    </div>
+    <div class="strip donutpanel">
+      <div class="head"><span class="title">Search intent</span><span class="hint">of filtered set</span></div>
+      <div class="donutwrap"><div class="donut" id="donut"><div class="ctr"><div><b id="donutTotal">0</b><span>prompts</span></div></div></div><div class="legend" id="legend"></div></div>
+    </div>
+    <div class="strip">
+      <div class="head"><span class="title">Last checked — by date</span><span class="hint">click to filter</span></div>
+      <div class="tl" id="tl"></div><div class="tlaxis" id="tlaxis"></div>
+    </div>
+  </section>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" aria-selected="true" data-tab="prompts">Prompts</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="pages">Top ranking pages</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="locs">Locations</button>
+  </div>
+
+  <div class="controls">
+    <div class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></svg>
+      <input id="q" type="search" placeholder="Search prompts or pages…" autocomplete="off" aria-label="Search"></div>
+    <select class="sel" id="loc" aria-label="Filter by location"></select>
+    <select class="sel" id="cat" aria-label="Filter by category"></select>
+    <select class="sel" id="pcat" aria-label="Filter by primary category"></select>
+    <select class="sel" id="vol" aria-label="Minimum volume">
+      <option value="0">Any volume</option><option value="100">100+ vol</option><option value="500">500+ vol</option><option value="1000">1,000+ vol</option><option value="5000">5,000+ vol</option></select>
+    <div class="chips" id="chips" role="group" aria-label="Filter">
+      <button class="chip" data-f="all" aria-pressed="true">All</button>
+      <button class="chip" data-f="cited" aria-pressed="false">Cited in AIO <span class="c" data-c="cited"></span></button>
+      <button class="chip" data-f="p1" aria-pressed="false">Rank #1 <span class="c" data-c="p1"></span></button>
+      <button class="chip" data-f="review" aria-pressed="false">Review queries <span class="c" data-c="review"></span></button>
+    </div>
+    <button class="btn" id="csv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Export CSV</button>
+    <button class="clearbtn" id="clear" style="display:none">✕ clear</button>
+  </div>
+
+  <div class="resultbar" id="resultbar"></div>
+
+  <div class="panel" id="panel-prompts"><div class="tablewrap"><table>
+    <thead><tr>
+      <th data-sort="k" style="width:24%">Prompt</th>
+      <th data-sort="pa">Ranking page</th>
+      <th data-sort="pcat">Primary category <span class="arrow">▼</span></th>
+      <th class="num" data-sort="v">Volume <span class="arrow">▼</span></th>
+      <th class="num" data-sort="p">Pos <span class="arrow">▼</span></th>
+      <th data-sort="a">In AIO &amp; 7-day <span class="arrow">▼</span></th>
+      <th data-sort="loc">Location <span class="arrow">▼</span></th>
+      <th data-sort="in">Intent <span class="arrow">▼</span></th>
+    </tr></thead><tbody id="rows"></tbody></table></div>
+    <div class="pager"><div class="info" id="pageInfo"></div>
+      <div class="btns"><button class="pbtn" id="prev">‹ Prev</button><span class="info" id="pageNum"></span><button class="pbtn" id="next">Next ›</button></div></div>
+  </div>
+
+  <div class="panel hidden" id="panel-pages"><div class="tablewrap"><table>
+    <thead><tr>
+      <th data-psort="pa" style="width:42%">Ranking page</th>
+      <th class="num" data-psort="n">Prompts <span class="arrow">▼</span></th>
+      <th class="num" data-psort="vol">Volume <span class="arrow">▼</span></th>
+      <th class="num" data-psort="apos">Avg pos <span class="arrow">▼</span></th>
+      <th data-psort="cr">Cited rate <span class="arrow">▼</span></th>
+    </tr></thead><tbody id="prows"></tbody></table></div>
+    <div class="pager"><div class="info" id="pPageInfo"></div>
+      <div class="btns"><button class="pbtn" id="pPrev">‹ Prev</button><span class="info" id="pPageNum"></span><button class="pbtn" id="pNext">Next ›</button></div></div>
+  </div>
+
+  <div class="panel hidden" id="panel-locs"><div class="tablewrap"><table>
+    <thead><tr>
+      <th data-lsort="loc" style="width:40%">Location</th>
+      <th class="num" data-lsort="n">Prompts <span class="arrow">▼</span></th>
+      <th class="num" data-lsort="vol">Volume <span class="arrow">▼</span></th>
+      <th data-lsort="cr">Cited rate <span class="arrow">▼</span></th>
+    </tr></thead><tbody id="lrows"></tbody></table></div>
+  </div>
+</div>
+
+<script>
+const EMBEDDED = {"meta": {"target": "www.saasworthy.com", "total": 0, "cited": 0, "sv": 0, "pos1": 0, "pages": 0, "locs": [], "cats": [], "pcats": [], "timeline": [], "export_date": "", "max_date": ""}, "rows": []};
+let DATA, META, has7=false;
+let tab="prompts", filter="all", locFilter="", catFilter="", pcatFilter="", minVol=0, daySel=null;
+let sortKey="v",sortDir="desc",page=1; let psort="n",pdir="desc",ppage=1; let lsort="n",ldir="desc";
+let filtered=[]; const PER=25, PPER=20;
+const INTENTS=[["Informational","#0E8C8C"],["Commercial","#C2410C"],["Branded","#4F46E5"],["Transactional","#0E9F6E"],["Navigational","#9333EA"],["Local","#E0345A"],["Other","#9AA3B6"]];
+const fmt=n=>n==null?"—":Math.round(n).toLocaleString("en-US");
+const $=id=>document.getElementById(id);
+
+
+function recomputeMeta(rows, base){
+  base = base || {};
+  var locs={},cats={},pcats={},tl={},sv=0,cited=0,pos1=0,g=0,l=0,pages={};
+  rows.forEach(function(d){
+    sv+=d.v||0; if(d.a)cited++; if(d.p===1)pos1++; if(d.u)pages[d.u]=1;
+    locs[d.loc]=(locs[d.loc]||0)+1; cats[d.cat]=(cats[d.cat]||0)+1;
+    var pc=d.pcat||"Uncategorized"; pcats[pc]=(pcats[pc]||0)+1;
+    if(d.d)tl[d.d]=(tl[d.d]||0)+1; if(d.c7==="gained")g++; if(d.c7==="lost")l++;
+  });
+  function srt(o){return Object.keys(o).map(function(n){return{n:n,c:o[n]};}).sort(function(a,b){return b.c-a.c;});}
+  var days=Object.keys(tl).sort();
+  return Object.assign({}, base, {
+    total:rows.length, sv:sv, cited:cited, pos1:pos1, pages:Object.keys(pages).length,
+    gained7:g, lost7:l, locs:srt(locs), cats:srt(cats), pcats:srt(pcats),
+    timeline:days.map(function(d){return{d:d,c:tl[d]};}),
+    max_date:(days.length?days[days.length-1]:(base.max_date||""))
+  });
+}
+async function boot(){
+  let db=EMBEDDED, src="embedded snapshot";
+  try{const r=await fetch("./data.json",{cache:"no-store"});if(r.ok){db=await r.json();src="live data.json";}}catch(e){}
+  var _all=(db.rows||[]);DATA=_all.filter(function(r){var k=(r.k||"").toLowerCase();return k.indexOf("pricing")>-1||k.indexOf("price")>-1||k.indexOf("cost")>-1||k.indexOf("how much")>-1;});META=recomputeMeta(DATA, db.meta); META._src=src;
+  has7=DATA.some(d=>d.c7);
+  init();
+}
+
+function init(){
+  $("hmeta").innerHTML=`Export <b>${META.export_date||META.date||""}</b><br>${(META.timeline&&META.timeline[0]?META.timeline[0].d:"")} → ${META.max_date||""}<span class="badge-src">${META._src}</span>`;
+  $("insight").innerHTML=`<span class="ic"></span><span><b>${fmt(META.cited)}</b> of ${fmt(META.total)} prompts cite the site inside the AI Overview — a <b>${Math.round(META.cited/META.total*100)}%</b> citation rate.</span>`;
+
+  // 7-day citation chips (only if data has it)
+  if(has7){
+    let g=0,l=0;DATA.forEach(d=>{if(d.c7==="gained")g++;if(d.c7==="lost")l++;});
+    $("chips").insertAdjacentHTML("beforeend",
+      `<button class="chip" data-f="gained7" aria-pressed="false">▲ Newly cited 7d <span class="c">${fmt(g)}</span></button>
+       <button class="chip" data-f="lost7" aria-pressed="false">▼ Lost citation 7d <span class="c">${fmt(l)}</span></button>`);
+  }
+
+  const cards=[
+    {c:"k1",label:"Prompts with AI Overview",val:fmt(META.total),foot:"all tracked queries"},
+    {c:"k2",label:"Cited inside the AI Overview",val:fmt(META.cited),foot:`${Math.round(META.cited/META.total*100)}% of prompts`},
+    {c:"k3",label:has7?"Lost citation (7d)":"Combined search volume",val:has7?fmt(META.lost7||0):fmt(META.sv),foot:has7?`gained ${fmt(META.gained7||0)} · 7-day check`:"monthly searches"},
+    {c:"k4",label:"Unique ranking pages",val:fmt(META.pages),foot:`${fmt(META.pos1)} rank #1`},
+  ];
+  $("kpis").innerHTML=cards.map(c=>`<div class="kpi ${c.c}"><span class="accent"></span><div class="label">${c.label}</div><div class="val">${c.val}</div><div class="foot">${c.foot}</div></div>`).join("");
+
+  // timeline
+  const TL=META.timeline||[]; const maxt=Math.max(1,...TL.map(t=>t.c));
+  $("tl").innerHTML=TL.map(t=>`<div class="tlbar" data-day="${t.d}" title="${t.d} · ${t.c} prompts" style="height:${Math.max(3,t.c/maxt*100)}%"></div>`).join("");
+  if(TL.length)$("tlaxis").innerHTML=`<span>${TL[0].d.slice(5)}</span><span>${TL[Math.floor(TL.length/2)].d.slice(5)}</span><span>${TL[TL.length-1].d.slice(5)}</span>`;
+  $("tl").addEventListener("click",e=>{const b=e.target.closest(".tlbar");if(!b)return;
+    daySel=(daySel===b.dataset.day)?null:b.dataset.day;
+    document.querySelectorAll(".tlbar").forEach(x=>x.classList.toggle("on",x.dataset.day===daySel));
+    page=1;ppage=1;updateClear();compute();});
+
+  // location select
+  $("loc").innerHTML=[`<option value="">All locations (${fmt(META.total)})</option>`].concat((META.locs||[]).map(l=>`<option value="${l.n}">${l.n} (${fmt(l.c)})</option>`)).join("");
+  // category select
+  $("cat").innerHTML=[`<option value="">All categories (${fmt(META.total)})</option>`].concat((META.cats||[]).map(l=>`<option value="${l.n}">${l.n} (${fmt(l.c)})</option>`)).join("");
+  // primary (breadcrumb) category select
+  $("pcat").innerHTML=[`<option value="">All primary categories (${fmt(META.total)})</option>`].concat((META.pcats||[]).map(l=>`<option value="${l.n}">${l.n} (${fmt(l.c)})</option>`)).join("");
+  if(!(META.pcats&&META.pcats.length)){$("pcat").style.display="none";}
+
+  let cited=0,p1=0,rev=0;DATA.forEach(d=>{if(d.a)cited++;if(d.p===1)p1++;if(d.k&&d.k.toLowerCase().includes("review"))rev++;});
+  document.querySelector('[data-c="cited"]').textContent=fmt(cited);
+  document.querySelector('[data-c="p1"]').textContent=fmt(p1);
+  document.querySelector('[data-c="review"]').textContent=fmt(rev);
+
+  bindEvents(); compute();
+}
+
+function base(d){
+  if(locFilter&&d.loc!==locFilter)return false;
+  if(catFilter&&d.cat!==catFilter)return false;
+  if(pcatFilter&&(d.pcat||"Uncategorized")!==pcatFilter)return false;
+  if(daySel&&d.d!==daySel)return false;
+  if(minVol&&(d.v||0)<minVol)return false;
+  if(filter==="cited")return !!d.a;
+  if(filter==="p1")return d.p===1;
+  if(filter==="review")return d.k.toLowerCase().includes("review");
+  if(filter==="gained7")return d.c7==="gained";
+  if(filter==="lost7")return d.c7==="lost";
+  return true;
+}
+function compute(){
+  const q=$("q").value.trim().toLowerCase();
+  filtered=DATA.filter(d=>base(d)&&(!q||d.k.toLowerCase().includes(q)||(d.pa||"").toLowerCase().includes(q)));
+  const tv=filtered.reduce((a,d)=>a+(d.v||0),0);
+  const dirty=(filter!=="all"||locFilter||catFilter||pcatFilter||daySel||minVol||q);
+  $("resultbar").innerHTML=`<b>${fmt(filtered.length)}</b> prompts · <b>${fmt(tv)}</b> combined volume${dirty?" · filtered":""}`;
+  renderPos(); renderDonut();
+  if(tab==="prompts")renderPrompts(); else if(tab==="pages")renderPages(); else renderLocs();
+}
+function renderPos(){
+  const dist={};for(let i=1;i<=6;i++)dist[i]=0; let mx=0;
+  filtered.forEach(d=>{if(d.p>=1&&d.p<=6){dist[d.p]++;}});
+  mx=Math.max(1,...Object.values(dist));
+  $("posbars").innerHTML=Object.entries(dist).map(([p,n])=>`<div class="posbar"><span class="pn">${fmt(n)}</span><div class="bar" style="height:${n?Math.max(4,n/mx*100):2}%"></div><span class="pl">#${p}</span></div>`).join("");
+}
+function renderDonut(){
+  const cnt={};INTENTS.forEach(([n])=>cnt[n]=0);
+  filtered.forEach(d=>{cnt[d.in]=(cnt[d.in]||0)+1;});
+  const tot=filtered.length||1; let acc=0; const segs=[];
+  INTENTS.forEach(([n,col])=>{const pct=cnt[n]/tot*100;if(pct>0){segs.push(`${col} ${acc}% ${acc+pct}%`);acc+=pct;}});
+  if(!segs.length)segs.push("var(--line) 0% 100%");
+  $("donut").style.background=`conic-gradient(${segs.join(",")})`;
+  $("donutTotal").textContent=fmt(filtered.length);
+  $("legend").innerHTML=INTENTS.filter(([n])=>cnt[n]>0).map(([n,col])=>`<div class="li"><span class="sw" style="background:${col}"></span><span class="ln">${n}</span><span class="lv">${fmt(cnt[n])}</span></div>`).join("");
+}
+function c7badge(d){
+  if(!has7||!d.c7||d.c7==="held")return "";
+  const lbl={gained:"▲ new 7d",lost:"▼ lost 7d",new:"new"};
+  return `<span class="c7 ${d.c7}">${lbl[d.c7]||d.c7}</span>`;
+}
+function renderPrompts(){
+  const v=filtered.slice().sort((a,b)=>{let av=a[sortKey],bv=b[sortKey];
+    if(["k","in","loc","pa"].includes(sortKey)){av=av||"";bv=bv||"";return sortDir==="asc"?av.localeCompare(bv):bv.localeCompare(av);}
+    av=av==null?-Infinity:av;bv=bv==null?-Infinity:bv;return sortDir==="asc"?av-bv:bv-av;});
+  const mp=Math.max(1,Math.ceil(v.length/PER));if(page>mp)page=mp;
+  const start=(page-1)*PER, slice=v.slice(start,start+PER);
+  $("rows").innerHTML=slice.length?slice.map(d=>{
+    const pc=d.p===1?"p1":d.p===2?"p2":"";
+    const aio=d.a?`<span class="cited"><span class="pulse"></span>Cited</span>`:`<span class="nocite">—</span>`;
+    return `<tr><td class="kw">${d.k}</td>
+      <td class="page"><a href="${d.u}" target="_blank" rel="noopener" title="${d.u}">${d.pa}</a>${d.cat?`<span class="cattag">${d.cat}</span>`:""}</td>
+      <td><span class="pcat ${d.pcat&&d.pcat!=="Uncategorized"?"":"unc"}">${d.pcat||"Uncategorized"}</span></td>
+      <td class="num">${fmt(d.v)}</td><td class="num"><span class="pos ${pc}">${d.p??"—"}</span></td>
+      <td>${aio}${c7badge(d)}</td>
+      <td><span class="loccell"><span class="cc">${d.cc||"—"}</span>${d.loc}</span></td>
+      <td><span class="tag ${d.in}">${d.in}</span></td></tr>`;}).join("")
+    :`<tr><td colspan="8"><div class="empty"><strong>No prompts match</strong>Adjust search, location, date, volume, or filters.</div></td></tr>`;
+  $("pageInfo").textContent=`${v.length?start+1:0}–${Math.min(start+PER,v.length)} of ${fmt(v.length)}`;
+  $("pageNum").textContent=`${page} / ${mp}`;$("prev").disabled=page<=1;$("next").disabled=page>=mp;
+}
+function renderPages(){
+  const m=new Map();
+  filtered.forEach(d=>{let o=m.get(d.u);if(!o){o={u:d.u,pa:d.pa,n:0,vol:0,posSum:0,cited:0};m.set(d.u,o);}o.n++;o.vol+=d.v||0;o.posSum+=d.p||0;if(d.a)o.cited++;});
+  const v=[...m.values()].map(o=>({...o,apos:o.posSum/o.n,cr:o.cited/o.n})).sort((a,b)=>{let av=a[psort],bv=b[psort];
+    if(psort==="pa")return pdir==="asc"?av.localeCompare(bv):bv.localeCompare(av);return pdir==="asc"?av-bv:bv-av;});
+  const mp=Math.max(1,Math.ceil(v.length/PPER));if(ppage>mp)ppage=mp;
+  const start=(ppage-1)*PPER, slice=v.slice(start,start+PPER);
+  $("prows").innerHTML=slice.length?slice.map(o=>`<tr>
+    <td class="page"><a href="${o.u}" target="_blank" rel="noopener" title="${o.u}">${o.pa}</a></td>
+    <td class="num">${fmt(o.n)}</td><td class="num">${fmt(o.vol)}</td><td class="num">${o.apos.toFixed(1)}</td>
+    <td><span class="citebar"><span class="track"><span class="fillc" style="width:${Math.round(o.cr*100)}%"></span></span>${Math.round(o.cr*100)}%</span></td></tr>`).join("")
+    :`<tr><td colspan="5"><div class="empty"><strong>No pages match</strong></div></td></tr>`;
+  $("pPageInfo").textContent=`${v.length?start+1:0}–${Math.min(start+PPER,v.length)} of ${fmt(v.length)} pages`;
+  $("pPageNum").textContent=`${ppage} / ${mp}`;$("pPrev").disabled=ppage<=1;$("pNext").disabled=ppage>=mp;
+}
+function renderLocs(){
+  const m=new Map();
+  filtered.forEach(d=>{let o=m.get(d.loc);if(!o){o={loc:d.loc,cc:d.cc,n:0,vol:0,cited:0};m.set(d.loc,o);}o.n++;o.vol+=d.v||0;if(d.a)o.cited++;});
+  const v=[...m.values()].map(o=>({...o,cr:o.cited/o.n})).sort((a,b)=>{let av=a[lsort],bv=b[lsort];
+    if(lsort==="loc")return ldir==="asc"?av.localeCompare(bv):bv.localeCompare(av);return ldir==="asc"?av-bv:bv-av;});
+  $("lrows").innerHTML=v.length?v.map(o=>`<tr><td><span class="loccell"><span class="cc">${o.cc||"—"}</span>${o.loc}</span></td>
+    <td class="num">${fmt(o.n)}</td><td class="num">${fmt(o.vol)}</td>
+    <td><span class="citebar"><span class="track"><span class="fillc" style="width:${Math.round(o.cr*100)}%"></span></span>${Math.round(o.cr*100)}%</span></td></tr>`).join("")
+    :`<tr><td colspan="4"><div class="empty"><strong>No locations match</strong></div></td></tr>`;
+}
+function updateClear(){$("clear").style.display=(filter!=="all"||locFilter||catFilter||pcatFilter||daySel||minVol||$("q").value)?"inline-block":"none";}
+
+function bindEvents(){
+  $("q").addEventListener("input",()=>{page=1;ppage=1;updateClear();compute();});
+  $("loc").addEventListener("change",e=>{locFilter=e.target.value;page=1;ppage=1;updateClear();compute();});
+  $("cat").addEventListener("change",e=>{catFilter=e.target.value;page=1;ppage=1;updateClear();compute();});
+  $("pcat").addEventListener("change",e=>{pcatFilter=e.target.value;page=1;ppage=1;updateClear();compute();});
+  $("vol").addEventListener("change",e=>{minVol=+e.target.value;page=1;ppage=1;updateClear();compute();});
+  $("chips").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;
+    document.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed",c===b));filter=b.dataset.f;page=1;ppage=1;updateClear();compute();});
+  $("clear").addEventListener("click",()=>{filter="all";locFilter="";catFilter="";pcatFilter="";minVol=0;daySel=null;$("q").value="";$("loc").value="";$("cat").value="";$("pcat").value="";$("vol").value="0";
+    document.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed",c.dataset.f==="all"));
+    document.querySelectorAll(".tlbar").forEach(x=>x.classList.remove("on"));page=1;ppage=1;updateClear();compute();});
+  document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>{tab=t.dataset.tab;
+    document.querySelectorAll(".tab").forEach(x=>x.setAttribute("aria-selected",x===t));
+    $("panel-prompts").classList.toggle("hidden",tab!=="prompts");
+    $("panel-pages").classList.toggle("hidden",tab!=="pages");
+    $("panel-locs").classList.toggle("hidden",tab!=="locs");compute();}));
+  document.querySelectorAll("th[data-sort]").forEach(th=>th.addEventListener("click",()=>{const k=th.dataset.sort;
+    if(sortKey===k)sortDir=sortDir==="asc"?"desc":"asc";else{sortKey=k;sortDir=["k","in","loc","pa","p"].includes(k)?"asc":"desc";}
+    document.querySelectorAll("th[data-sort]").forEach(t=>{t.dataset.active=(t===th);const a=t.querySelector(".arrow");if(a)a.textContent=sortDir==="asc"?"▲":"▼";});renderPrompts();}));
+  document.querySelectorAll("th[data-psort]").forEach(th=>th.addEventListener("click",()=>{const k=th.dataset.psort;
+    if(psort===k)pdir=pdir==="asc"?"desc":"asc";else{psort=k;pdir=k==="pa"?"asc":"desc";}
+    document.querySelectorAll("th[data-psort]").forEach(t=>{t.dataset.active=(t===th);const a=t.querySelector(".arrow");if(a)a.textContent=pdir==="asc"?"▲":"▼";});renderPages();}));
+  document.querySelectorAll("th[data-lsort]").forEach(th=>th.addEventListener("click",()=>{const k=th.dataset.lsort;
+    if(lsort===k)ldir=ldir==="asc"?"desc":"asc";else{lsort=k;ldir=k==="loc"?"asc":"desc";}
+    document.querySelectorAll("th[data-lsort]").forEach(t=>{t.dataset.active=(t===th);const a=t.querySelector(".arrow");if(a)a.textContent=ldir==="asc"?"▲":"▼";});renderLocs();}));
+  $("prev").addEventListener("click",()=>{if(page>1){page--;renderPrompts();}});
+  $("next").addEventListener("click",()=>{page++;renderPrompts();});
+  $("pPrev").addEventListener("click",()=>{if(ppage>1){ppage--;renderPages();}});
+  $("pNext").addEventListener("click",()=>{ppage++;renderPages();});
+  $("csv").addEventListener("click",()=>{const head=["Prompt","Ranking URL","Primary category","URL type","Volume","Position","In AI Overview","7-day citation","Location","Country","Intent","Last checked"];
+    const esc=s=>`"${String(s??"").replace(/"/g,'""')}"`;
+    const lines=[head.join(",")].concat(filtered.map(d=>[d.k,d.u,d.pcat||"Uncategorized",d.cat,d.v,d.p,d.a?"Yes":"No",d.c7||"",d.loc,d.cc,d.in,d.d].map(esc).join(",")));
+    const blob=new Blob([lines.join("\n")],{type:"text/csv"});const a=document.createElement("a");
+    a.href=URL.createObjectURL(blob);a.download=`aio-prompts_${new Date().toISOString().slice(0,10)}.csv`;a.click();URL.revokeObjectURL(a.href);});
+}
+boot();
+</script>
+</body>
+</html>
